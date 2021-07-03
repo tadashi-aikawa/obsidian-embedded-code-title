@@ -7,6 +7,16 @@ This is an Obsidian plugin which can embeds title to code blocks.
 
 ![Demo](demo.gif)
 
+## Install
+
+For now, I don't have registered community plugins. So you need to install it manually with git.
+
+```
+cd <your_vault>
+cd .obsidian
+git clone https://github.com/tadashi-aikawa/obsidian-embedded-code-title.git
+```
+
 ## Use on Obsidian Publish
 
 You can also use it on the published site by Obsidian Publish with `publish.js` and `publish.css`. Please see [my published site](https://minerva.mamansoft.net/Obsidian/Obsidian+Publish%E3%81%AE%E3%82%B5%E3%82%A4%E3%83%88%E3%81%A7%E3%82%B3%E3%83%BC%E3%83%89%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AB%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%90%8D%E3%82%92%E5%9F%8B%E3%82%81%E8%BE%BC%E3%82%80) as examples.
