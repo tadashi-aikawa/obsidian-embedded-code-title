@@ -5,7 +5,7 @@ This is an Obsidian plugin which can embeds title to code blocks.
 
 **⚠ There is a possibility that this plugin doesn't work someday because it depends on the internal DOM structure of Obsidian.**
 
-![Demo](demo.mp4)
+![Demo](https://github.com/tadashi-aikawa/obsidian-embedded-code-title/blob/master/demo.mp4?raw=true)
 
 ## Use on Obsidian Publish
 
@@ -40,19 +40,15 @@ const insertFileNamesIntoCodeBlocks = debounce(() => {
     }
 
     wrapperElm.style.position = "relative";
-    wrapperElm.style["padding-top"] = "30px";
+    wrapperElm.style.paddingTop = "30px";
+
+    wrapperElm
+      .querySelectorAll(".obsidian-embedded-code-title__code-block-title")
+      .forEach((x) => x.remove());
 
     let d = document.createElement("pre");
     d.appendText(fileName);
-    d.style.position = "absolute";
-    d.style.top = "0";
-    d.style.left = "0";
-    d.style.padding = "3px";
-    d.style.margin = "0";
-    d.style["background-color"] = "#1c1c1c";
-    d.style.color = "darkgrey";
-    d.style["border-radius"] = "0";
-
+    d.className = "obsidian-embedded-code-title__code-block-title";
     wrapperElm.prepend(d);
   });
 }, 150);
