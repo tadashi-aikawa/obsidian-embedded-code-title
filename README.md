@@ -5,7 +5,7 @@ This is an Obsidian plugin which can embeds title to code blocks.
 
 **⚠ There is a possibility that this plugin doesn't work someday because it depends on the internal DOM structure of Obsidian.**
 
-![Demo](https://github.com/tadashi-aikawa/obsidian-embedded-code-title/blob/master/demo.mp4?raw=true)
+![Demo](demo.gif)
 
 ## Use on Obsidian Publish
 
