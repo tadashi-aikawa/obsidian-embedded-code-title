@@ -1,112 +1,62 @@
-import { App, Modal, Notice, Plugin, PluginSettingTab, Setting } from 'obsidian';
-
-interface MyPluginSettings {
-	mySetting: string;
-}
-
-const DEFAULT_SETTINGS: MyPluginSettings = {
-	mySetting: 'default'
-}
+import { Plugin } from "obsidian";
 
 export default class MyPlugin extends Plugin {
-	settings: MyPluginSettings;
+  insertFileNamesIntoCodeBlocks() {
+    this.app.workspace.containerEl
+      .querySelectorAll<HTMLPreElement>('pre[class*="language-"]')
+      .forEach((wrapperElm) => {
+        let fileName = wrapperElm
+          .querySelector("code")
+          .className.split(" ")
+          .find((x) => x.startsWith(":"))
+          ?.replace(":", "");
+        if (!fileName) {
+          return;
+        }
 
-	async onload() {
-		console.log('loading plugin');
+        wrapperElm.style.position = "relative";
+        wrapperElm.style.paddingTop = "30px";
 
-		await this.loadSettings();
+        wrapperElm
+          .querySelectorAll(".obsidian-embedded-code-title__code-block-title")
+          .forEach((x) => x.remove());
 
-		this.addRibbonIcon('dice', 'Sample Plugin', () => {
-			new Notice('This is a notice!');
-		});
+        let d = document.createElement("pre");
+        d.appendText(fileName);
+        d.className = "obsidian-embedded-code-title__code-block-title";
+        wrapperElm.prepend(d);
+      });
+  }
 
-		this.addStatusBarItem().setText('Status Bar Text');
+  async onload() {
+    console.log("loading Embedded Code Title plugin");
 
-		this.addCommand({
-			id: 'open-sample-modal',
-			name: 'Open Sample Modal',
-			// callback: () => {
-			// 	console.log('Simple Callback');
-			// },
-			checkCallback: (checking: boolean) => {
-				let leaf = this.app.workspace.activeLeaf;
-				if (leaf) {
-					if (!checking) {
-						new SampleModal(this.app).open();
-					}
-					return true;
-				}
-				return false;
-			}
-		});
+    let observer: MutationObserver;
 
-		this.addSettingTab(new SampleSettingTab(this.app, this));
+    this.app.workspace.onLayoutReady(() => {
+      const observe = () => {
+        observer?.disconnect();
+        observer = new MutationObserver(() =>
+          this.insertFileNamesIntoCodeBlocks()
+        );
 
-		this.registerCodeMirror((cm: CodeMirror.Editor) => {
-			console.log('codemirror', cm);
-		});
+        const targets = this.app.workspace.containerEl.querySelectorAll(
+          ".markdown-preview-section"
+        );
+        targets.forEach((t) => {
+          observer.observe(t, {
+            childList: true,
+          });
+        });
 
-		this.registerDomEvent(document, 'click', (evt: MouseEvent) => {
-			console.log('click', evt);
-		});
+        this.insertFileNamesIntoCodeBlocks();
+      };
 
-		this.registerInterval(window.setInterval(() => console.log('setInterval'), 5 * 60 * 1000));
-	}
+      this.app.workspace.on("layout-change", () => {
+        observe();
+      });
 
-	onunload() {
-		console.log('unloading plugin');
-	}
-
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
-}
-
-class SampleModal extends Modal {
-	constructor(app: App) {
-		super(app);
-	}
-
-	onOpen() {
-		let {contentEl} = this;
-		contentEl.setText('Woah!');
-	}
-
-	onClose() {
-		let {contentEl} = this;
-		contentEl.empty();
-	}
-}
-
-class SampleSettingTab extends PluginSettingTab {
-	plugin: MyPlugin;
-
-	constructor(app: App, plugin: MyPlugin) {
-		super(app, plugin);
-		this.plugin = plugin;
-	}
-
-	display(): void {
-		let {containerEl} = this;
-
-		containerEl.empty();
-
-		containerEl.createEl('h2', {text: 'Settings for my awesome plugin.'});
-
-		new Setting(containerEl)
-			.setName('Setting #1')
-			.setDesc('It\'s a secret')
-			.addText(text => text
-				.setPlaceholder('Enter your secret')
-				.setValue('')
-				.onChange(async (value) => {
-					console.log('Secret: ' + value);
-					this.plugin.settings.mySetting = value;
-					await this.plugin.saveSettings();
-				}));
-	}
+      observe();
+    });
+  }
 }
