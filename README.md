@@ -70,6 +70,8 @@ observer.observe(target, {
 });
 
 setTimeout(insertFileNamesIntoCodeBlocks, 600);
+setTimeout(insertFileNamesIntoCodeBlocks, 1000);
+setTimeout(insertFileNamesIntoCodeBlocks, 2000);
 ```
 
 ### `publish.css`
