@@ -1,5 +1,4 @@
-Obsidian Embedded Code Title Plugin
-===================================
+# Obsidian Embedded Code Title Plugin
 
 This is an Obsidian plugin which can embeds title to code blocks.
 
@@ -9,12 +8,14 @@ This is an Obsidian plugin which can embeds title to code blocks.
 
 ## Install
 
-For now, I don't have registered community plugins. So you need to install it manually with git.
+For now, I don't have registered community plugins. So you need to install it manually with git and npm.
 
 ```
-cd <your_vault>
-cd .obsidian
 git clone https://github.com/tadashi-aikawa/obsidian-embedded-code-title.git
+cd obsidian-embedded-clone-title
+npm run build
+mkdir -p <your_vault>/.obsidian/obsidian-embedded-clone-title
+cp main.js styles.css manifest.json <your_vault>/.obsidian/obsidian-embedded-clone-title/
 ```
 
 ## Use on Obsidian Publish
