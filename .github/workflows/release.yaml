@@ -27,6 +27,8 @@ jobs:
             main.js
             styles.css
             manifest.json
+            publish/publish.js
+            publish/publish.css
 
       - name: "Slack notification (not success)"
         uses: homoluctus/slatify@master
