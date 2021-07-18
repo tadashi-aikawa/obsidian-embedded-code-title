@@ -87,7 +87,7 @@ export default class MyPlugin extends Plugin {
         observe();
       });
 
-      observe();
+      setTimeout(observe, 500);
     });
   }
 
