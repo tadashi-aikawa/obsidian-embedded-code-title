@@ -29,25 +29,21 @@ function debounce(func, wait, immediate) {
 const insertFileNamesIntoCodeBlocks = debounce(() => {
   document.querySelectorAll('pre[class*="language-"]').forEach((wrapperElm) => {
     let title;
-    title = wrapperElm
-      .querySelector("code")
-      .className.split(" ")
-      .find((x) => x.startsWith(":"))
-      ?.replace(":", "")
-      .replace(
-        new RegExp(escapeRegExp(settings.substitutionTokenForSpace), "g"),
-        " "
-      );
-
+    const classNames = wrapperElm.querySelector("code").className.split(" ");
+    title = classNames.find((x) => x.startsWith(":"))?.replace(":", "");
     if (title === "") {
-      title = wrapperElm
-        .querySelector("code")
-        .className.split(" ")
+      title = classNames
         .find((x) => x.startsWith("language-"))
         ?.replace("language-", "");
     }
     if (!title) {
       return;
+    }
+    if (settings.substitutionTokenForSpace) {
+      title = title.replace(
+        new RegExp(escapeRegExp(settings.substitutionTokenForSpace), "g"),
+        " "
+      );
     }
 
     wrapperElm.style.position = "relative";

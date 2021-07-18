@@ -20,28 +20,27 @@ export default class MyPlugin extends Plugin {
     this.app.workspace.containerEl
       .querySelectorAll<HTMLPreElement>('pre[class*="language-"]')
       .forEach((wrapperElm) => {
+        // Remove in publish.js
+        const settings = this.settings;
+
         let title;
-        title = wrapperElm
+        const classNames = wrapperElm
           .querySelector("code")
-          .className.split(" ")
-          .find((x) => x.startsWith(":"))
-          ?.replace(":", "")
-          .replace(
-            new RegExp(
-              escapeRegExp(this.settings.substitutionTokenForSpace),
-              "g"
-            ),
-            " "
-          );
+          .className.split(" ");
+        title = classNames.find((x) => x.startsWith(":"))?.replace(":", "");
         if (title === "") {
-          title = wrapperElm
-            .querySelector("code")
-            .className.split(" ")
+          title = classNames
             .find((x) => x.startsWith("language-"))
             ?.replace("language-", "");
         }
         if (!title) {
           return;
+        }
+        if (settings.substitutionTokenForSpace) {
+          title = title.replace(
+            new RegExp(escapeRegExp(settings.substitutionTokenForSpace), "g"),
+            " "
+          );
         }
 
         wrapperElm.style.position = "relative";
