@@ -1,0 +1,56 @@
+name: "Release"
+
+on:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - run: npm install
+      - run: npm run build
+
+      - name: Create Release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          files: |
+            main.js
+            styles.css
+            manifest.json
+
+      - name: "Slack notification (not success)"
+        uses: homoluctus/slatify@master
+        if: "! success()"
+        with:
+          type: ${{ job.status }}
+          username: GitHub Actions (Failure)
+          job_name: ":obsidian: Release ${{ github.ref }}"
+          mention: channel
+          mention_if: always
+          icon_emoji: "github"
+          url: ${{ secrets.SLACK_WEBHOOK }}
+
+  notify:
+    needs: release
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Slack Notification (success)"
+        uses: homoluctus/slatify@master
+        if: always()
+        with:
+          type: ${{ job.status }}
+          username: GitHub Actions (Success)
+          job_name: ":obsidian: Release ${{ github.ref }}"
+          icon_emoji: ":github:"
+          url: ${{ secrets.SLACK_WEBHOOK }}
