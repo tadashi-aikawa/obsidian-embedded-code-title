@@ -16,45 +16,47 @@ function escapeRegExp(str: string): string {
 export default class EmbeddedCodeTitlePlugin extends Plugin {
   settings: Settings;
 
-  insertFileNamesIntoCodeBlocks() {
-    this.app.workspace.containerEl
-      .querySelectorAll<HTMLPreElement>('pre[class*="language-"]')
-      .forEach((wrapperElm) => {
-        // Remove in publish.js
-        const settings = this.settings;
+  insertFileNamesIntoCodeBlocks(el: HTMLElement) {
+    const wrapperElm = el.querySelectorAll("pre").item(0);
+    if (!wrapperElm) {
+      return;
+    }
 
-        let title;
-        const classNames = wrapperElm
-          .querySelector("code")
-          .className.split(" ");
-        title = classNames.find((x) => x.startsWith(":"))?.replace(":", "");
-        if (title === "") {
-          title = classNames
-            .find((x) => x.startsWith("language-"))
-            ?.replace("language-", "");
-        }
-        if (!title) {
-          return;
-        }
-        if (settings.substitutionTokenForSpace) {
-          title = title.replace(
-            new RegExp(escapeRegExp(settings.substitutionTokenForSpace), "g"),
-            " "
-          );
-        }
+    const settings = this.settings;
 
-        wrapperElm.style.position = "relative";
-        wrapperElm.style.paddingTop = "30px";
+    let title;
+    const classNames = wrapperElm.querySelector("code").className.split(":");
+    title = classNames?.[1];
 
-        wrapperElm
-          .querySelectorAll(".obsidian-embedded-code-title__code-block-title")
-          .forEach((x) => x.remove());
+    // ---------------------------------------------------------
+    // Enable to use same codes since here for Obsidian Publish
+    // ---------------------------------------------------------
+    if (title === "") {
+      title = classNames
+        .find((x) => x.startsWith("language-"))
+        ?.replace("language-", "");
+    }
+    if (!title) {
+      return;
+    }
+    if (settings.substitutionTokenForSpace) {
+      title = title.replace(
+        new RegExp(escapeRegExp(settings.substitutionTokenForSpace), "g"),
+        " "
+      );
+    }
 
-        let d = document.createElement("pre");
-        d.appendText(title);
-        d.className = "obsidian-embedded-code-title__code-block-title";
-        wrapperElm.prepend(d);
-      });
+    wrapperElm.style.position = "relative";
+    wrapperElm.style.paddingTop = "30px";
+
+    wrapperElm
+      .querySelectorAll(".obsidian-embedded-code-title__code-block-title")
+      .forEach((x) => x.remove());
+
+    let d = document.createElement("pre");
+    d.appendText(title);
+    d.className = "obsidian-embedded-code-title__code-block-title";
+    wrapperElm.prepend(d);
   }
 
   async onload() {
@@ -62,32 +64,10 @@ export default class EmbeddedCodeTitlePlugin extends Plugin {
     await this.loadSettings();
     this.addSettingTab(new EmbeddedCodeTitleTab(this.app, this));
 
-    let observer: MutationObserver;
-
     this.app.workspace.onLayoutReady(() => {
-      const observe = () => {
-        observer?.disconnect();
-        observer = new MutationObserver(() =>
-          this.insertFileNamesIntoCodeBlocks()
-        );
-
-        const targets = this.app.workspace.containerEl.querySelectorAll(
-          ".markdown-preview-section"
-        );
-        targets.forEach((t) => {
-          observer.observe(t, {
-            childList: true,
-          });
-        });
-
-        this.insertFileNamesIntoCodeBlocks();
-      };
-
-      this.app.workspace.on("layout-change", () => {
-        observe();
-      });
-
-      setTimeout(observe, 500);
+      this.registerMarkdownPostProcessor((el) =>
+        this.insertFileNamesIntoCodeBlocks(el)
+      );
     });
   }
 
