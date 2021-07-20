@@ -13,7 +13,7 @@ function escapeRegExp(str: string): string {
   return str.replace(/[.*+?^=!:${}()|[\]\/\\]/g, "\\$&");
 }
 
-export default class MyPlugin extends Plugin {
+export default class EmbeddedCodeTitlePlugin extends Plugin {
   settings: Settings;
 
   insertFileNamesIntoCodeBlocks() {
@@ -60,7 +60,7 @@ export default class MyPlugin extends Plugin {
   async onload() {
     console.log("loading Embedded Code Title plugin");
     await this.loadSettings();
-    this.addSettingTab(new SettingTab(this.app, this));
+    this.addSettingTab(new EmbeddedCodeTitleTab(this.app, this));
 
     let observer: MutationObserver;
 
@@ -100,10 +100,10 @@ export default class MyPlugin extends Plugin {
   }
 }
 
-class SettingTab extends PluginSettingTab {
-  plugin: MyPlugin;
+class EmbeddedCodeTitleTab extends PluginSettingTab {
+  plugin: EmbeddedCodeTitlePlugin;
 
-  constructor(app: App, plugin: MyPlugin) {
+  constructor(app: App, plugin: EmbeddedCodeTitlePlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
