@@ -4,7 +4,7 @@ This is an [Obsidian] plugin which can embeds title to code blocks.
 
 **⚠ There is a possibility that this plugin doesn't work someday because it depends on the internal DOM structure of Obsidian.**
 
-![Demo](resource/demo.gif)
+![Demo](https://raw.githubusercontent.com/tadashi-aikawa/obsidian-embedded-code-title/master/resource/demo.gif)
 
 ## 🖋 Examples
 
@@ -19,7 +19,7 @@ def main():
 
 ↓
 
-![img.png](resource/img.png)
+![img.png](https://raw.githubusercontent.com/tadashi-aikawa/obsidian-embedded-code-title/master/resource/img.png)
 
 ### No file name but show a language name
 
@@ -32,7 +32,7 @@ def main():
 
 ↓
 
-![img_1.png](resource/img_1.png)
+![img_1.png](https://raw.githubusercontent.com/tadashi-aikawa/obsidian-embedded-code-title/master/resource/img_1.png)
 
 ### With a file name
 
@@ -45,13 +45,13 @@ def main():
 
 ↓
 
-![img_2.png](resource/img_2.png)
+![img_2.png](https://raw.githubusercontent.com/tadashi-aikawa/obsidian-embedded-code-title/master/resource/img_2.png)
 
 ### With a file name includes half spaces
 
 If you configure as the follows.
 
-![img_4.png](resource/img_4.png)
+![img_4.png](https://raw.githubusercontent.com/tadashi-aikawa/obsidian-embedded-code-title/master/resource/img_4.png)
 
 Then
 
@@ -64,7 +64,7 @@ def main():
 
 ↓
 
-![img_3.png](resource/img_3.png)
+![img_3.png](https://raw.githubusercontent.com/tadashi-aikawa/obsidian-embedded-code-title/master/resource/img_3.png)
 
 ## 🌍 Use on Obsidian Publish
 
