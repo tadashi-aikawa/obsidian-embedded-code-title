@@ -64,11 +64,9 @@ export default class EmbeddedCodeTitlePlugin extends Plugin {
     await this.loadSettings();
     this.addSettingTab(new EmbeddedCodeTitleTab(this.app, this));
 
-    this.app.workspace.onLayoutReady(() => {
-      this.registerMarkdownPostProcessor((el) =>
-        this.insertFileNamesIntoCodeBlocks(el)
-      );
-    });
+    this.registerMarkdownPostProcessor((el) =>
+      this.insertFileNamesIntoCodeBlocks(el)
+    );
   }
 
   async loadSettings() {
