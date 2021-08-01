@@ -2,10 +2,14 @@ import { App, Plugin, PluginSettingTab, Setting } from "obsidian";
 
 interface Settings {
   substitutionTokenForSpace: string;
+  titleBackgroundColor: string;
+  titleFontColor: string;
 }
 
 const DEFAULT_SETTINGS: Settings = {
   substitutionTokenForSpace: undefined,
+  titleBackgroundColor: "#1c1c1c",
+  titleFontColor: "darkgrey",
 };
 
 // Refer https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
@@ -56,6 +60,8 @@ export default class EmbeddedCodeTitlePlugin extends Plugin {
     let d = document.createElement("pre");
     d.appendText(title);
     d.className = "obsidian-embedded-code-title__code-block-title";
+    d.style.color = settings.titleFontColor;
+    d.style.backgroundColor = settings.titleBackgroundColor;
     wrapperElm.prepend(d);
   }
 
@@ -100,6 +106,28 @@ class EmbeddedCodeTitleTab extends PluginSettingTab {
           .setValue(this.plugin.settings.substitutionTokenForSpace)
           .onChange(async (value) => {
             this.plugin.settings.substitutionTokenForSpace = value;
+            await this.plugin.saveSettings();
+          })
+      );
+
+    new Setting(containerEl).setName("Font color of title").addText((tc) =>
+      tc
+        .setPlaceholder("Enter a color")
+        .setValue(this.plugin.settings.titleFontColor)
+        .onChange(async (value) => {
+          this.plugin.settings.titleFontColor = value;
+          await this.plugin.saveSettings();
+        })
+    );
+
+    new Setting(containerEl)
+      .setName("Background color of title")
+      .addText((tc) =>
+        tc
+          .setPlaceholder("Enter a color")
+          .setValue(this.plugin.settings.titleBackgroundColor)
+          .onChange(async (value) => {
+            this.plugin.settings.titleBackgroundColor = value;
             await this.plugin.saveSettings();
           })
       );

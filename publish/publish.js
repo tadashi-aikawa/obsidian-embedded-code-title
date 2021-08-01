@@ -3,6 +3,8 @@
 // *******************
 const settings = {
   substitutionTokenForSpace: undefined,
+  titleBackgroundColor: "#1c1c1c",
+  titleFontColor: "darkgrey",
 };
 
 // Refer https://developer.mozilla.org/ja/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
@@ -19,9 +21,13 @@ function debounce(func, wait, immediate) {
     clearTimeout(timeout);
     timeout = setTimeout(function () {
       timeout = null;
-      if (!immediate) func.apply(context, args);
+      if (!immediate) {
+        func.apply(context, args);
+      }
     }, wait);
-    if (immediate && !timeout) func.apply(context, args);
+    if (immediate && !timeout) {
+      func.apply(context, args);
+    }
   };
 }
 
@@ -56,6 +62,8 @@ const insertFileNamesIntoCodeBlocks = debounce(() => {
     let d = document.createElement("pre");
     d.appendText(title);
     d.className = "obsidian-embedded-code-title__code-block-title";
+    d.style.color = settings.titleFontColor;
+    d.style.backgroundColor = settings.titleBackgroundColor;
     wrapperElm.prepend(d);
   });
 }, 150);
