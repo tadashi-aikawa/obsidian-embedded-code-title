@@ -52,8 +52,8 @@ const insertFileNamesIntoCodeBlocks = debounce(() => {
       );
     }
 
-    wrapperElm.style.position = "relative";
-    wrapperElm.style.paddingTop = "30px";
+    wrapperElm.style.setProperty("position", "relative", "important");
+    wrapperElm.style.setProperty("padding-top", "30px", "important");
 
     wrapperElm
       .querySelectorAll(".obsidian-embedded-code-title__code-block-title")
