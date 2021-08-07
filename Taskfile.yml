@@ -2,6 +2,7 @@ version: '3'
 
 tasks:
   build: npm run build
+
   release:
     desc: Release
     deps:
