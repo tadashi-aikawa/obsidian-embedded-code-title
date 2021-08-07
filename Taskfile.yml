@@ -1,0 +1,23 @@
+version: '3'
+
+tasks:
+  build: npm run build
+  release:
+    desc: Release
+    deps:
+      - task: build
+    preconditions:
+      - sh: "[ {{.VERSION}} != '' ]"
+        msg: "VERSION is required."
+    cmds:
+      - echo '1. Update versions'
+      - |
+        sed -i -r 's/\"version\": \".+\"/\"version\": \"{{.VERSION}}\"/g' manifest.json
+      - git add manifest.json
+      - git commit -m "Update manifest"
+      - npm version {{.VERSION}}
+      - echo '2. Build'
+      - task: build
+      - echo '3. push'
+      - git push --tags
+      - git push

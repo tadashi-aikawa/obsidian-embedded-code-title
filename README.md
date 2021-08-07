@@ -90,8 +90,11 @@ npm run build
 
 ### Release
 
+[Task] is required.
+
 ```
-make release version=x.y.z
+task release VERSION=x.y.z
 ```
 
 [Obsidian]: https://obsidian.md/
+[Task]: https://taskfile.dev/#/
