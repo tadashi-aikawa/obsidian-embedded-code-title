@@ -1,5 +1,8 @@
 # Obsidian Embedded Code Title Plugin
 
+[![release](https://img.shields.io/github/release/tadashi-aikawa/obsidian-embedded-code-title.svg)](https://github.com/tadashi-aikawa/obsidian-embedded-code-title/releases/latest)
+![downloads](https://img.shields.io/github/downloads/tadashi-aikawa/obsidian-embedded-code-title/total)
+
 This is an [Obsidian] plugin which can embeds title to code blocks.
 
 **⚠ There is a possibility that this plugin doesn't work someday because it depends on the internal DOM structure of Obsidian.**
