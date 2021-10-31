@@ -69,11 +69,19 @@ const insertFileNamesIntoCodeBlocks = debounce(() => {
 }, 150);
 
 // Insert file names into code blocks when changing a page (updating child DOM list in a preview section).
-const target = document.querySelector(".markdown-preview-section");
-const observer = new MutationObserver(insertFileNamesIntoCodeBlocks);
-observer.observe(target, {
-  childList: true,
-});
+let observer;
+function startObserve() {
+  console.log("startObserve");
+  if (observer) {
+    observer.disconnect();
+  }
+  const target = document.querySelector(".markdown-preview-section");
+  observer = new MutationObserver(insertFileNamesIntoCodeBlocks);
+  observer.observe(target, {
+    childList: true,
+  });
+  insertFileNamesIntoCodeBlocks();
+}
 
 // For initial drawing
 setTimeout(insertFileNamesIntoCodeBlocks, 150);
