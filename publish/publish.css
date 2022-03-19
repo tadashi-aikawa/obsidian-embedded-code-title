@@ -1,9 +1,9 @@
-.obsidian-embedded-code-title__code-block-title {
+.markdown-rendered pre .obsidian-embedded-code-title__code-block-title {
     position: absolute;
     top: 0;
     left: 0;
-    font-size: 85% !important;
-    padding: 3px !important;
-    margin: 0 !important;
-    border-radius: 0 !important;
+    font-size: 85%!important;
+    padding: 3px 8px!important;
+    margin: 0!important;
+    border-radius: 0!important;
 }
