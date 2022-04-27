@@ -29,8 +29,13 @@ export default class EmbeddedCodeTitlePlugin extends Plugin {
     const settings = this.settings;
 
     let title;
-    const classNames = wrapperElm.querySelector("code").className.split(":");
-    title = classNames?.[1];
+    const codeElm = wrapperElm.querySelector("code");
+
+    const classNames = codeElm.className.split(":");
+    if (classNames?.[0]) {
+      codeElm.addClass(classNames[0]);
+      title = classNames?.[1];
+    }
 
     // ---------------------------------------------------------
     // Enable to use same codes since here for Obsidian Publish

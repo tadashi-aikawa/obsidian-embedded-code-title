@@ -16,8 +16,13 @@ function escapeRegExp(str) {
 const insertFileNamesIntoCodeBlocks = () => {
   document.querySelectorAll('pre[class*="language-"]').forEach((wrapperElm) => {
     let title;
-    const classNames = wrapperElm.querySelector("code").className.split(" ");
-    title = classNames.find((x) => x.startsWith(":"))?.replace(":", "");
+    const codeElm = wrapperElm.querySelector("code");
+    const classNames = codeElm.className.split(" ");
+    if (classNames?.[0]) {
+      codeElm.addClass(classNames[0]);
+      title = classNames?.[1];
+    }
+
     if (title === "") {
       title = classNames
         .find((x) => x.startsWith("language-"))
