@@ -30,6 +30,9 @@ export default class EmbeddedCodeTitlePlugin extends Plugin {
 
     let title;
     const codeElm = wrapperElm.querySelector("code");
+    if (!codeElm) {
+      return;
+    }
 
     const classNames = codeElm.className.split(":");
     if (classNames?.[0]) {

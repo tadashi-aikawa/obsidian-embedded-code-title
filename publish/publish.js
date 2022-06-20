@@ -17,6 +17,10 @@ const insertFileNamesIntoCodeBlocks = () => {
   document.querySelectorAll('pre[class*="language-"]').forEach((wrapperElm) => {
     let title;
     const codeElm = wrapperElm.querySelector("code");
+    if (!codeElm) {
+      return;
+    }
+
     const classNames = codeElm.className.split(" ");
     if (classNames?.[0]) {
       codeElm.addClass(classNames[0]);
