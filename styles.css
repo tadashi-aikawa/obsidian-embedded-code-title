@@ -7,4 +7,5 @@
     padding: 3px 8px!important;
     margin: 0!important;
     border-radius: 0!important;
+    min-height: unset !important;
 }
