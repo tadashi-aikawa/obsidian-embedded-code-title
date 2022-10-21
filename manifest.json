@@ -1,7 +1,7 @@
 {
   "id": "obsidian-embedded-code-title",
   "name": "Embedded Code Title",
-  "version": "0.5.4",
+  "version": "0.5.5",
   "minAppVersion": "0.9.12",
   "description": "This is an Obsidian plugin which can embeds title to code blocks.",
   "author": "tadashi-aikawa",
